@@ -37,6 +37,7 @@ public class XferMgrUpload
                     " (recursive)" : "") + (pause ? " (pause)" : ""));
 
         TransferManager xfer_mgr = TransferManagerBuilder.standard().build();
+	long start = System.currentTimeMillis();
         try {
             MultipleFileUpload xfer = xfer_mgr.uploadDirectory(bucket_name,
                     key_prefix, new File(dir_path), recursive);
@@ -48,7 +49,13 @@ public class XferMgrUpload
             System.err.println(e.getErrorMessage());
             System.exit(1);
         }
+	
+	long end = System.currentTimeMillis();
+	long size = 5242880000L;
         xfer_mgr.shutdownNow();
+	System.out.println("Data size transferred: " + size);
+	System.out.println("Milliseconds: " + (end-start));
+	System.out.println("Bytes/second: " + size/((end-start)/1000));
     }
 
     public static void uploadFileList(String[] file_paths, String bucket_name,
@@ -92,7 +99,9 @@ public class XferMgrUpload
         }
 
         File f = new File(file_path);
+	long size = f.length();
         TransferManager xfer_mgr = TransferManagerBuilder.standard().build();
+	long start = System.currentTimeMillis();
         try {
             Upload xfer = xfer_mgr.upload(bucket_name, key_name, f);
             // loop with Transfer.isDone()
@@ -104,6 +113,12 @@ public class XferMgrUpload
             System.exit(1);
         }
         xfer_mgr.shutdownNow();
+	long end = System.currentTimeMillis();
+
+	System.out.println("Data size transferred: " + size);
+	System.out.println("Milliseconds: " + (end-start));
+	System.out.println("Bytes/second: " + size/((end-start)/1000));
+
     }
 
     public static void main(String[] args)
