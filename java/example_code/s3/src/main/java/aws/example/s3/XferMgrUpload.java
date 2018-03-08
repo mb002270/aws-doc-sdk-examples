@@ -100,7 +100,10 @@ public class XferMgrUpload
 
         File f = new File(file_path);
 	long size = f.length();
-        TransferManager xfer_mgr = TransferManagerBuilder.standard().build();
+        //TransferManager xfer_mgr = TransferManagerBuilder.standard().build();
+        TransferManager xfer_mgr = TransferManagerBuilder.standard().withMinimumUploadPartSize(50000000L).build();
+	System.out.println("CONFIG: " + xfer_mgr.getConfiguration().getMinimumUploadPartSize());
+	//if (System.currentTimeMillis() > 100) { System.exit(1); }
 	long start = System.currentTimeMillis();
         try {
             Upload xfer = xfer_mgr.upload(bucket_name, key_name, f);
