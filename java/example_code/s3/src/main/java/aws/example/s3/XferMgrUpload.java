@@ -36,7 +36,8 @@ public class XferMgrUpload
         System.out.println("directory: " + dir_path + (recursive ?
                     " (recursive)" : "") + (pause ? " (pause)" : ""));
 
-        TransferManager xfer_mgr = TransferManagerBuilder.standard().build();
+        //TransferManager xfer_mgr = TransferManagerBuilder.standard().build();
+        TransferManager xfer_mgr = TransferManagerBuilder.standard().withMinimumUploadPartSize(50000000L).build();
 	long start = System.currentTimeMillis();
         try {
             MultipleFileUpload xfer = xfer_mgr.uploadDirectory(bucket_name,
