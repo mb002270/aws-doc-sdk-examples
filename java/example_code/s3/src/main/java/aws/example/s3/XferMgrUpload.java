@@ -37,7 +37,7 @@ public class XferMgrUpload
                     " (recursive)" : "") + (pause ? " (pause)" : ""));
 
         //TransferManager xfer_mgr = TransferManagerBuilder.standard().build();
-        TransferManager xfer_mgr = TransferManagerBuilder.standard().withMinimumUploadPartSize(50000000L).build();
+        TransferManager xfer_mgr = TransferManagerBuilder.standard().withMinimumUploadPartSize(100000000L).build();
 	long start = System.currentTimeMillis();
         try {
             MultipleFileUpload xfer = xfer_mgr.uploadDirectory(bucket_name,
@@ -52,7 +52,9 @@ public class XferMgrUpload
         }
 	
 	long end = System.currentTimeMillis();
-	long size = 5242880000L;
+	//long size = 5242880000L;
+	System.out.println("Using 4x Bytes");
+	long size = 5242880000L*4L;
         xfer_mgr.shutdownNow();
 	System.out.println("Data size transferred: " + size);
 	System.out.println("Milliseconds: " + (end-start));
@@ -102,7 +104,7 @@ public class XferMgrUpload
         File f = new File(file_path);
 	long size = f.length();
         //TransferManager xfer_mgr = TransferManagerBuilder.standard().build();
-        TransferManager xfer_mgr = TransferManagerBuilder.standard().withMinimumUploadPartSize(50000000L).build();
+        TransferManager xfer_mgr = TransferManagerBuilder.standard().withMinimumUploadPartSize(100000000L).build();
 	System.out.println("CONFIG: " + xfer_mgr.getConfiguration().getMinimumUploadPartSize());
 	//if (System.currentTimeMillis() > 100) { System.exit(1); }
 	long start = System.currentTimeMillis();

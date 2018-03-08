@@ -35,6 +35,7 @@ public class XferMgrDownload
               (pause ?  " (pause)" : ""));
 
         TransferManager xfer_mgr = TransferManagerBuilder.standard().build();
+        long start = System.currentTimeMillis();
         
         try {
             MultipleFileDownload xfer = xfer_mgr.downloadDirectory(
@@ -47,6 +48,15 @@ public class XferMgrDownload
             System.err.println(e.getErrorMessage());
             System.exit(1);
         }
+        long end = System.currentTimeMillis();
+        long size = 5242880000L;
+        //System.out.println("Using 4x Bytes");
+        //long size = 5242880000L*4L;
+
+
+        System.out.println("Data size transferred: " + size);
+        System.out.println("Milliseconds: " + (end-start));
+        System.out.println("Bytes/second: " + size/((end-start)/1000));
         xfer_mgr.shutdownNow();
     }
 
@@ -58,6 +68,7 @@ public class XferMgrDownload
 
         File f = new File(file_path);
         TransferManager xfer_mgr = TransferManagerBuilder.standard().build();
+        long start = System.currentTimeMillis();
         try {
             Download xfer = xfer_mgr.download(bucket_name, key_name, f);
             // loop with Transfer.isDone()
@@ -68,6 +79,12 @@ public class XferMgrDownload
             System.err.println(e.getErrorMessage());
             System.exit(1);
         }
+        long end = System.currentTimeMillis();
+
+        System.out.println("Data size transferred: " + f.length());
+        System.out.println("Milliseconds: " + (end-start));
+        System.out.println("Bytes/second: " + f.length()/((end-start)/1000));
+
         xfer_mgr.shutdownNow();
     }
 
